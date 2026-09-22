@@ -1,55 +1,59 @@
 # AI Codespace
 
-این مخزن برای شروع سریع با OpenCode و یک مدل رایگان محلی آماده شده است.
+این مخزن اکنون یک agent رایگان و واقعی برای OpenCode دارد که با Ollama به‌صورت محلی اجرا می‌شود؛ بنابراین API Key یا سرویس پولی لازم نیست.
 
-## چی داخل این مخزن هست؟
-- `opencode.json`: پیکربندی OpenCode برای اتصال به مدل محلی Ollama
-- `AGENTS.md`: دستورالعمل‌های پیش‌فرض برای agent
-- `scripts/install-opencode.sh`: نصب OpenCode و دانلود مدل رایگان
-- `.gitignore`: فایل‌های غیرضروری
+## فایل‌های agent
 
-## راه‌اندازی سریع
+- `.opencode/agents/free-coder.md`: agent اصلی برای کدنویسی
+- `.opencode/agents/reviewer.md`: agent بازبینی فقط‌خواندنی
+- `opencode.json`: اتصال OpenCode به Ollama و مدل `qwen2.5-coder:7b`
+- `scripts/setup-free-agent.sh`: دانلود مدل رایگان
 
-### 1) نصب OpenCode
+## راه‌اندازی
+
+### نصب Ollama
+
+از https://ollama.com/download نصب کنید، سپس در ریشهٔ مخزن اجرا کنید:
+
 ```bash
-curl -fsSL https://opencode.ai/install | bash
+chmod +x scripts/setup-free-agent.sh
+./scripts/setup-free-agent.sh
 ```
 
-### 2) نصب Ollama
-با پیروی از مستندات رسمی Ollama:
-- https://ollama.com/download
+### اجرای agent
 
-### 3) دانلود مدل رایگان
-```bash
-ollama pull qwen2.5-coder:7b
-```
+در یک ترمینال Ollama را اجرا کنید:
 
-### 4) اجرای سرور مدل
 ```bash
 ollama serve
 ```
 
-### 5) اجرای OpenCode
+در ترمینال دوم، داخل همین مخزن OpenCode را اجرا کنید:
+
 ```bash
 opencode
 ```
 
-## پیکربندی
-کد مربوط به تنظیمات در `opencode.json` قرار دارد. این فایل با مدل محلی `qwen2.5-coder:7b` تنظیم شده و به Ollama متصل می‌شود.
+agent پیش‌فرض `free-coder` است. برای استفاده از بازبین، agent `reviewer` را انتخاب کنید.
 
-## اسکریپت آماده
+## نصب OpenCode
+
+اگر OpenCode نصب نیست:
+
 ```bash
-chmod +x scripts/install-opencode.sh
-./scripts/install-opencode.sh
+curl -fsSL https://opencode.ai/install | bash
 ```
 
-## نکات
-- این روش رایگان و محلی است؛ نیازی به API Key ندارید.
-- اگر مدل موردنظر شما را نمی‌خواهید، نام مدل را در `opencode.json` تغییر دهید.
-- برای استفاده از شبکهٔ محلی، `http://127.0.0.1:11434/v1` را همان‌طور نگه دارید.
+## نکتهٔ سخت‌افزاری
 
-## نمونهٔ دستورات
+مدل ۷B به RAM و فضای دیسک مناسب نیاز دارد. برای سیستم ضعیف‌تر می‌توانید قبل از اجرا مدل سبک‌تری نصب کنید و متغیر زیر را تنظیم کنید:
+
 ```bash
-ollama run qwen2.5-coder:7b
-opencode
+OLLAMA_MODEL=phi3:mini ./scripts/setup-free-agent.sh
 ```
+
+در این حالت باید نام مدل در `opencode.json` و فایل agent نیز مطابق مدل نصب‌شده تغییر کند.
+
+## حریم خصوصی و هزینه
+
+پردازش مدل روی سیستم خودتان انجام می‌شود و این تنظیمات به API پولی متصل نیست. سرعت و کیفیت به سخت‌افزار و مدل دانلودشده بستگی دارد.
