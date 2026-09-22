@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.schema.json",
+  "model": "qwen2.5-coder:7b",
+  "providers": {
+    "ollama": {
+      "type": "openai",
+      "url": "http://127.0.0.1:11434/v1",
+      "apiKey": "ollama"
+    }
+  }
+}
